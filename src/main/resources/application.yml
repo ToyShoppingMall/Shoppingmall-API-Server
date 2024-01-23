@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Shop_mall?serverTimezone=UTC&characterEncoding=UTF-8
+    username: master
+    password: master1234
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
