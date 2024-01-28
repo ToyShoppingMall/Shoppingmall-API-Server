@@ -2,8 +2,10 @@ package team.shoppingmall.domain.member.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import team.shoppingmall.domain.member.dto.service.AuthenticateServiceDTO;
 import team.shoppingmall.domain.member.dto.service.SingUpInfoServiceDTO;
-import team.shoppingmall.domain.member.dto.service.SignOutServiceDTO;
 import team.shoppingmall.domain.member.repository.MemberRepository;
 
 import java.security.InvalidParameterException;
@@ -12,10 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
+@SpringBootTest
 class MemberServiceTest {
 
+    @Autowired
     private MemberRepository memberRepository;
-    private MemberService memberService = new MemberServiceImpl(memberRepository);
+    @Autowired
+    private MemberService memberService;
 
     @Test
     @DisplayName("가입정보가 정상적으로 들어온 경우 회원 가입 성공")
@@ -32,6 +37,7 @@ class MemberServiceTest {
         );
 
         memberService.singUp(dto);
+        System.out.println();
     }
 
     @Test
@@ -119,7 +125,7 @@ class MemberServiceTest {
                 false,
                 "192.168.4.55"
         );
-        SignOutServiceDTO dto2 = new SignOutServiceDTO(1L);
+        AuthenticateServiceDTO dto2 = new AuthenticateServiceDTO("test");
 
         memberService.singUp(dto1);
         memberService.singOut(dto2);

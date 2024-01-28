@@ -4,10 +4,11 @@ import team.shoppingmall.domain.member.dto.service.*;
 
 public interface MemberService {
 
-    void singUp(SingUpInfoServiceDTO joinInfoServiceDTO);
-    void singOut(SignOutServiceDTO withdrawalServiceDTO);
-    void login(LoginInfoServiceDTO loginInfoServiceDTO);
+    void singUp(SingUpInfoServiceDTO dto);
+    void singOut(AuthenticateServiceDTO dto);
+    void login(LoginServiceDTO dto);
     void logout();
-    String askForId(AskForIdServiceDTO askForIdServiceDTO);
-    void askForPassword(AskForPasswordServiceDTO askForPasswordServiceDTO);
+    String askForId(AskForIdServiceDTO dto);
+    void askForPassword(AskForPasswordServiceDTO dto);
+    void updatePrivateInfo(PrivateInfoServiceDTO dto, String id);
 }

@@ -1,13 +1,13 @@
 package team.shoppingmall.domain.member.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import team.shoppingmall.domain.member.Grade;
+import team.shoppingmall.domain.member.dto.service.PrivateInfoServiceDTO;
+import team.shoppingmall.domain.member.dto.service.SingUpInfoServiceDTO;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,26 +34,34 @@ public class Member {
     private String roadAddress;
     private String detailRoadAddress;
     private LocalDate birthday;
+    @CreatedDate
     private LocalDateTime signUpDate;
+    @LastModifiedDate
     private LocalDateTime lastActDate;
     private LocalDateTime signOutDate;
     private String signOutReason;
     private Boolean receptionSMS;
     private Boolean receptionMail;
     private Integer point;
-    private String grade;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "grade")
+    private Grade grade;
     private String accessIp;
     private Integer loginTry;
 
-    public Member(String id, String password, String name, String email, String phoneNumber, Boolean receptionSMS, Boolean receptionMail, String accessIp) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.receptionSMS = receptionSMS;
-        this.receptionMail = receptionMail;
-        this.accessIp = accessIp;
+    public static Member createNewMember(SingUpInfoServiceDTO dto) {
+        return Member.builder()
+                .id(dto.getId())
+                .password(dto.getPassword())
+                .name(dto.getName())
+                .email(dto.getEmail())
+                .phoneNumber(dto.getPhoneNumber())
+                .receptionMail(dto.getReceptionMail())
+                .receptionSMS(dto.getReceptionSMS())
+                .point(0)
+                .grade(Grade.MEMBER)
+                .loginTry(0)
+                .build();
     }
 
     public Member isValidPassword(String password) {
@@ -72,6 +82,24 @@ public class Member {
 
     public Member initPassword() {
         this.password = RandomStringUtils.randomAlphanumeric(8);
+        return this;
+    }
+
+    public Member updatePrivateInfo(PrivateInfoServiceDTO dto) {
+        this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.zipCode = dto.getZipCode();
+        this.address = dto.getAddress();
+        this.detailAddress = dto.getDetailAddress();
+        this.roadZipCode = dto.getRoadZipCode();
+        this.roadAddress = dto.getRoadAddress();
+        this.detailRoadAddress = dto.getDetailRoadAddress();
+        this.birthday = dto.getBirthday();
+        this.receptionMail = dto.getReceptionMail();
+        this.receptionSMS = dto.getReceptionSMS();
+
         return this;
     }
 }

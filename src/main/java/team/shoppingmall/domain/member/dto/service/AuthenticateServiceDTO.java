@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SignOutServiceDTO {
+public class AuthenticateServiceDTO {
 
-    private Long index;
+    private String id;
 }
