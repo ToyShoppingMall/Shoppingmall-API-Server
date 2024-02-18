@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form > label {display: block;}
+    </style>
+</head>
+<body>
+    <form id="form">
+        <label>아이디 : <input type="text" id="id" name="id" value=""></label>
+        <label>비밀번호 : <input type="text" id="pw" name="password" value=""></label>
+        <label>이름 : <input type="text" id="name" name="name" value=""></label>
+        <label>이메일 : <input type="text" id="email" name="email" value=""></label>
+        <label>연락처 : <input type="text" id="phoneNumber" name="phoneNumber" value=""></label>
+        <label>SMS 수신동의 : <input type="checkbox" id="receptionSMS" name="receptionSMS" value=""></label>
+        <label>이메일 수신동의 : <input type="checkbox" id="receptionMail" name="receptionMail" value=""></label>
+        <input type="text" id="accessIp" name="accessIp" value="" hidden>
+        <button type="button" onclick="signup()">가입하기</button>
+    </form>
+</body>
+
+<script>
+    function signup() {
+        const jsonData = JSON.stringify({
+            id: this.form.id.value,
+            password: this.form.pw.value,
+            name: this.form.name.value,
+            email: this.form.email.value,
+            phoneNumber: this.form.phoneNumber.value,
+            receptionSMS: this.form.receptionSMS.checked,
+            receptionMail: this.form.receptionMail.checked,
+            accessIp: this.form.accessIp.value
+        });
+
+        fetch("http://localhost:8080/api/authenticate/sign-up", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonData
+        }).then(response => console.log(response.data));
+    }
+</script>
+
+</html>

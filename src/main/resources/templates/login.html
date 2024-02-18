@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form > label { display: block; }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <label><input type="text" id="id" name="id" value="test"></label>
+        <label><input type="text" id="pw" name="password" value="test1234"></label>
+        <button type="button" onclick="login()">로그인</button>
+    </form>
+</body>
+
+<script>
+    function login() {
+        const jsonData = JSON.stringify({
+            id: this.form.id.value,
+            password: this.form.pw.value
+        });
+
+        fetch("http://localhost:8080/api/authenticate/login", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonData
+        }).then(response => response.redirect(response.url))
+    }
+</script>
+</html>

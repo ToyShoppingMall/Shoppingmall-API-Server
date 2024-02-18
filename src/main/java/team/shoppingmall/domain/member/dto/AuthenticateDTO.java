@@ -1,11 +1,11 @@
-package team.shoppingmall.domain.member.dto.service;
+package team.shoppingmall.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AuthenticateServiceDTO {
+public class AuthenticateDTO {
 
     private String id;
 }

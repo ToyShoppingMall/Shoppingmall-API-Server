@@ -1,43 +1,42 @@
 package team.shoppingmall.domain.member.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import team.shoppingmall.domain.member.dto.service.*;
+import team.shoppingmall.domain.member.dto.*;
 import team.shoppingmall.domain.member.entity.Member;
 import team.shoppingmall.domain.member.repository.MemberRepository;
 
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private MemberRepository memberRepository;
-
-    @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository;
 
     @Override
-    public void singUp(SingUpInfoServiceDTO dto) {
+    public void singUp(SignUpInfoReq dto) {
         memberRepository
                 .save(Member.createNewMember(dto))
                 .updateLastActDate();
     }
 
     @Override
-    public void singOut(AuthenticateServiceDTO dto) {
+    public void singOut(AuthenticateDTO dto) {
         memberRepository.deleteById(dto.getId());
     }
 
     @Override
-    public void login(LoginServiceDTO dto) {
-        memberRepository
+    public LoginRes login(LoginReq dto) {
+        String name = memberRepository
                 .findById(dto.getId())
                 .orElseThrow(NoSuchElementException::new)
                 .isValidPassword(dto.getPassword())
                 .updateLastActDate()
-                .initLoginTry();
+                .initLoginTry()
+                .getName();
+
+        return new LoginRes(name);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String askForId(AskForIdServiceDTO dto) {
+    public String askForId(AskForIdDTO dto) {
         return memberRepository
                 .findByNameAndPhoneNumber(
                         dto.getName(),
@@ -57,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void askForPassword(AskForPasswordServiceDTO dto) {
+    public void askForPassword(AskForPasswordDTO dto) {
         String tempPassword = memberRepository
                 .findByIdAndNameAndPhoneNumber(
                         dto.getId(),
@@ -70,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updatePrivateInfo(PrivateInfoServiceDTO dto, String id) {
+    public void updatePrivateInfo(PrivateInfoDTO dto, String id) {
         memberRepository
                 .findByIdAndNameAndPhoneNumber(
                         id,

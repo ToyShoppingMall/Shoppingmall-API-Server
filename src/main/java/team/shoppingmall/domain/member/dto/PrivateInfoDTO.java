@@ -1,4 +1,4 @@
-package team.shoppingmall.domain.member.dto.service;
+package team.shoppingmall.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
-public class PrivateInfoServiceDTO {
+public class PrivateInfoDTO {
 
     private String password;
     private String name;

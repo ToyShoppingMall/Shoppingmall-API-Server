@@ -1,11 +1,11 @@
-package team.shoppingmall.domain.member.dto.service;
+package team.shoppingmall.domain.member.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
-public class SingUpInfoServiceDTO {
+@Setter
+public class SignUpInfoReq {
 
     private String id;
     private String password;

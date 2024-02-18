@@ -5,9 +5,10 @@ import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import team.shoppingmall.domain.member.Grade;
-import team.shoppingmall.domain.member.dto.service.PrivateInfoServiceDTO;
-import team.shoppingmall.domain.member.dto.service.SingUpInfoServiceDTO;
+import team.shoppingmall.domain.member.dto.PrivateInfoDTO;
+import team.shoppingmall.domain.member.dto.SignUpInfoReq;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "members")
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,7 +52,7 @@ public class Member {
     private String accessIp;
     private Integer loginTry;
 
-    public static Member createNewMember(SingUpInfoServiceDTO dto) {
+    public static Member createNewMember(SignUpInfoReq dto) {
         return Member.builder()
                 .id(dto.getId())
                 .password(dto.getPassword())
@@ -85,7 +88,7 @@ public class Member {
         return this;
     }
 
-    public Member updatePrivateInfo(PrivateInfoServiceDTO dto) {
+    public Member updatePrivateInfo(PrivateInfoDTO dto) {
         this.password = dto.getPassword();
         this.name = dto.getName();
         this.email = dto.getEmail();
