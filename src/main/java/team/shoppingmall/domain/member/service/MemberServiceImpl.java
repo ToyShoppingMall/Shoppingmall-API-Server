@@ -1,6 +1,7 @@
 package team.shoppingmall.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Service;
 import team.shoppingmall.domain.member.dto.*;
 import team.shoppingmall.domain.member.entity.Member;
@@ -9,6 +10,7 @@ import team.shoppingmall.domain.member.repository.MemberRepository;
 import java.util.NoSuchElementException;
 
 @Service
+@EnableJpaAuditing
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
@@ -28,15 +30,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LoginRes login(LoginReq dto) {
-        String name = memberRepository
+        String id = memberRepository
                 .findById(dto.getId())
                 .orElseThrow(NoSuchElementException::new)
                 .isValidPassword(dto.getPassword())
                 .updateLastActDate()
                 .initLoginTry()
-                .getName();
+                .getId();
 
-        return new LoginRes(name);
+        return new LoginRes(id);
     }
 
     @Override
