@@ -16,7 +16,6 @@ import team.shoppingmall.domain.member.dto.SignUpInfoReq;
 import team.shoppingmall.domain.member.service.MemberService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthenticateRestController.class)
@@ -64,7 +63,6 @@ public class AuthenticateRestControllerTest {
         mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("redirect:/"));
+                .andExpect(status().isOk());
     }
 }

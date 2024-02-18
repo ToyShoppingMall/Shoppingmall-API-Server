@@ -1,6 +1,7 @@
 package team.shoppingmall.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,9 @@ import team.shoppingmall.domain.member.dto.LoginReq;
 import team.shoppingmall.domain.member.dto.LoginRes;
 import team.shoppingmall.domain.member.dto.SignUpInfoReq;
 import team.shoppingmall.domain.member.service.MemberService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/authenticate")
@@ -22,9 +26,13 @@ public class AuthenticateRestController {
         return memberService.login(dto);
     }
 
-    @PostMapping("/sign-up")
-    public String signUp(@RequestBody SignUpInfoReq dto) {
+    @PostMapping(
+            value = "/sign-up",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Map<String, String> signUp(@RequestBody SignUpInfoReq dto) {
         memberService.singUp(dto);
-        return "redirect:/";
+        return new HashMap<>(){{ put("redirect", "/"); }};
     }
 }
