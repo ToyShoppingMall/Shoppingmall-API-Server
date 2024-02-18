@@ -26,7 +26,8 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: jsonData
-        }).then(response => response.redirect(response.url))
+        }).then(response => response.json())
+            .then(data => window.location.href = data.redirect);
     }
 </script>
 </html>
