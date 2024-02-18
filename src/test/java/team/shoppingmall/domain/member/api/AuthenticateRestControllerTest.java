@@ -31,7 +31,6 @@ public class AuthenticateRestControllerTest {
     @Test
     @DisplayName("정상적인 로그인 시 회원 아이디 반환")
     void 정상_로그인_테스트() throws Exception {
-
         String url = "/api/authenticate/login";
         LoginReq req = new LoginReq();
         ObjectMapper objectMapper = new ObjectMapper();
